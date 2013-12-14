@@ -4,7 +4,7 @@
       "monmon <lesamoureuses@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v0.11.0, CPAN::Meta::Converter version 2.132830",
+   "generated_by" : "Minilla/v0.11.0, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -43,12 +43,19 @@
       },
       "runtime" : {
          "requires" : {
+            "Data::MessagePack" : "0",
+            "Encode::Locale" : "0",
+            "JSON::XS" : "0",
+            "UNIVERSAL::require" : "0",
+            "XML::Smart" : "0",
             "perl" : "5.008005"
          }
       },
       "test" : {
          "requires" : {
-            "Test::More" : "0.98"
+            "Test::Base::Less" : "0",
+            "Test::More" : "0.98",
+            "Test::Pretty" : "0"
          }
       }
    },

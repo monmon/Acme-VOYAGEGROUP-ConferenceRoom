@@ -2,10 +2,159 @@ package Acme::VOYAGEGROUP::ConferenceRoom;
 use 5.008005;
 use strict;
 use warnings;
+use Carp;
+use utf8;
+use UNIVERSAL::require;
+use parent 'Exporter';
+
+binmode STDOUT, ":utf8";
+binmode STDERR, ":utf8";
 
 our $VERSION = "0.01";
+our @EXPORT = qw/ conference_room /;
 
+use constant FLOOR_PLAN => <<'EOS';
+.---------------.---------------------.
+|               |                     |
+|               |      .--.--.----.---|
+|               |      |  |  |    |   |
+|               |---.  |  |--|    |   |
+|               |   |  '--'  '----|   |
+|               |---'-.          .'---|
+|               |     |          |    |
+'---------------'-----'.--.--.  .'----|
+                       |     |  |     |
+                       |--.--|  |--.--|
+                       |  |  |  |  |  |
+                       '--'--'  '--'--|
+                                      |
+                         .------------|
+                         |            |
+                         |            |
+                         '------------'
+EOS
 
+my %PROCESS_OF = (
+    pangea => {
+        lines         => [1..7],
+        normalization => qr/^ぱんげあ|パンゲア$/xms,
+        position      => qr{ ^(\|/*)\s }x,
+        direction     => 'head',
+    },
+    megallanica => {
+        lines         => [3..4],
+        normalization => qr/^めがらにか|メガラニカ$/xms,
+        position      => qr{ ^(\|\s+\|[^\|]+\|/*)\s }x,
+    },
+    mu => {
+        lines         => [3],
+        normalization => qr/^むー|ムー$/xms,
+        position      => qr{ \s(/*\|\s+\|\s+\|)$ }x,
+    },
+    ultima => {
+        lines         => [5],
+        normalization => qr/^うるてぃま|ウルティマ$/xms,
+        position      => qr{ ^(\|\s+\|/*)\s }x,
+    },
+    atlantis => {
+        lines         => [3..4],
+        normalization => qr/^あとらんてぃす|アトランティス$/xms,
+        position      => qr{ \s(/*\|\s+\|)$ }x,
+    },
+    pacifis => {
+        lines         => [3..5],
+        normalization => qr/^ぱしふぃす|パシフィス$/xms,
+        position      => qr{ \s(/*\|)$ }x,
+    },
+    zipang => {
+        lines         => [7],
+        normalization => qr/^じぱんぐ|ジパング$/xms,
+        position      => qr{ ^(\|\s+\|/*)\s }x,
+    },
+    lemuria => {
+        lines         => [7],
+        normalization => qr/^れむりあ|レムリア$/xms,
+        position      => qr{ \s(/*\|)$ }x,
+    },
+    africa => {
+        lines         => [9],
+        normalization => qr/^あふりか|アフリカ$/xms,
+        position      => qr{ \s(/*\|\s+\|\s+\|)$ }x,
+    },
+    eurasia => {
+        lines         => [9],
+        normalization => qr/^ゆーらしあ|ユーラシア$/xms,
+        position      => qr{ \s(/*\|)$ }x,
+    },
+    north_america => {
+        lines         => [11],
+        normalization => qr/^のーすあめりか|ノースアメリカ$/xms,
+        position      => qr{ \s(/*\|)$ }x,
+    },
+    south_america => {
+        lines         => [11],
+        normalization => qr/^さうすあめりか|サウスアメリカ$/xms,
+        position      => qr{ \s(/*\|\s+\|)$ }x,
+    },
+    australlia => {
+        lines         => [11],
+        normalization => qr/^おーすとらりあ|オーストラリア$/xms,
+        position      => qr{ \s(/*\|\s+\|\s+\|\s+\|)$ }x,
+    },
+    antarctica => {
+        lines         => [11],
+        normalization => qr/^あんたーくてぃか|アンタークティカ$/xms,
+        position      => qr{ \s(/*\|\s+\|\s+\|\s+\|\s+\|)$ }x,
+    },
+    ajito => {
+        lines         => [15..16],
+        normalization => qr/^あじと|アジト$/xms,
+        position      => qr{ \s(/*\|)$ }x,
+    },
+);
+
+my %OUTPUT_OF = (
+    color        => 'Acme::VOYAGEGROUP::ConferenceRoom::Output::Color',
+    json         => 'Acme::VOYAGEGROUP::ConferenceRoom::Output::JSON',
+    xml          => 'Acme::VOYAGEGROUP::ConferenceRoom::Output::XML',
+    message_pack => 'Acme::VOYAGEGROUP::ConferenceRoom::Output::MessagePack',
+);
+
+sub conference_room {
+    my $room_name = shift or croak "Conference Room Not Found";
+    my $output_type = shift || 'color';
+
+    $room_name = _normalize($room_name);
+    my $process = $PROCESS_OF{$room_name};
+    croak "Conference Room Not Found: $room_name" unless $process;
+
+    croak "Mistake Position: $process->{position}" if $process->{position} !~ m/\s(\^?).+?(\$?)\s/xms;
+    my @lines = split "\n", FLOOR_PLAN;
+    my($head, $tail) = ($1) ? ('', '/') : ('/', '');
+    for my $i (@{ $process->{lines} }) {
+        1 while $lines[$i] =~ s{$process->{position}}{$head$1$tail};
+    }
+
+    if ($output_type ne 'none') {
+        my $module = $OUTPUT_OF{$output_type};
+        croak "No Type: $output_type" unless $module;
+
+        return $module->convert(\@lines) if $module->use;
+    }
+
+    join "\n", @lines;
+}
+
+sub _normalize {
+    my $room_name = shift;
+
+    for my $normalized_room_name (keys %PROCESS_OF) {
+        return $normalized_room_name
+            if $room_name =~ $PROCESS_OF{$normalized_room_name}->{normalization};
+    }
+
+    lc($room_name);
+}
 
 1;
 __END__

@@ -60,5 +60,15 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/monmon/Acme-VOYAGEGROUP-ConferenceRoom/issues"
+      },
+      "homepage" : "https://github.com/monmon/Acme-VOYAGEGROUP-ConferenceRoom",
+      "repository" : {
+         "url" : "https://github.com/monmon/Acme-VOYAGEGROUP-ConferenceRoom.git",
+         "web" : "https://github.com/monmon/Acme-VOYAGEGROUP-ConferenceRoom"
+      }
+   },
    "version" : "0.01"
 }

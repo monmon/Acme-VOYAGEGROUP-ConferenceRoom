@@ -37,78 +37,78 @@ EOS
 my %PROCESS_OF = (
     pangea => {
         lines         => [1..7],
-        normalization => qr/^ぱんげあ|パンゲア$/xms,
+        normalization => qr/^ぱんげあ|パンゲア$/ms,
         position      => qr{ ^(\|/*)\s }x,
         direction     => 'head',
     },
     megallanica => {
         lines         => [3..4],
-        normalization => qr/^めがらにか|メガラニカ$/xms,
+        normalization => qr/^めがらにか|メガラニカ$/ms,
         position      => qr{ ^(\|\s+\|[^\|]+\|/*)\s }x,
     },
     mu => {
         lines         => [3],
-        normalization => qr/^むー|ムー$/xms,
+        normalization => qr/^むー|ムー$/ms,
         position      => qr{ \s(/*\|\s+\|\s+\|)$ }x,
     },
     ultima => {
         lines         => [5],
-        normalization => qr/^うるてぃま|ウルティマ$/xms,
+        normalization => qr/^うるてぃま|ウルティマ$/ms,
         position      => qr{ ^(\|\s+\|/*)\s }x,
     },
     atlantis => {
         lines         => [3..4],
-        normalization => qr/^あとらんてぃす|アトランティス$/xms,
+        normalization => qr/^あとらんてぃす|アトランティス$/ms,
         position      => qr{ \s(/*\|\s+\|)$ }x,
     },
     pacifis => {
         lines         => [3..5],
-        normalization => qr/^ぱしふぃす|パシフィス$/xms,
+        normalization => qr/^ぱしふぃす|パシフィス$/ms,
         position      => qr{ \s(/*\|)$ }x,
     },
     zipang => {
         lines         => [7],
-        normalization => qr/^じぱんぐ|ジパング$/xms,
+        normalization => qr/^じぱんぐ|ジパング$/ms,
         position      => qr{ ^(\|\s+\|/*)\s }x,
     },
     lemuria => {
         lines         => [7],
-        normalization => qr/^れむりあ|レムリア$/xms,
+        normalization => qr/^れむりあ|レムリア$/ms,
         position      => qr{ \s(/*\|)$ }x,
     },
     africa => {
         lines         => [9],
-        normalization => qr/^あふりか|アフリカ$/xms,
+        normalization => qr/^あふりか|アフリカ$/ms,
         position      => qr{ \s(/*\|\s+\|\s+\|)$ }x,
     },
     eurasia => {
         lines         => [9],
-        normalization => qr/^ゆーらしあ|ユーラシア$/xms,
+        normalization => qr/^ゆーらしあ|ユーラシア$/ms,
         position      => qr{ \s(/*\|)$ }x,
     },
     north_america => {
         lines         => [11],
-        normalization => qr/^のーすあめりか|ノースアメリカ$/xms,
+        normalization => qr/^のーすあめりか|ノースアメリカ$/ms,
         position      => qr{ \s(/*\|)$ }x,
     },
     south_america => {
         lines         => [11],
-        normalization => qr/^さうすあめりか|サウスアメリカ$/xms,
+        normalization => qr/^さうすあめりか|サウスアメリカ$/ms,
         position      => qr{ \s(/*\|\s+\|)$ }x,
     },
     australlia => {
         lines         => [11],
-        normalization => qr/^おーすとらりあ|オーストラリア$/xms,
+        normalization => qr/^おーすとらりあ|オーストラリア$/ms,
         position      => qr{ \s(/*\|\s+\|\s+\|\s+\|)$ }x,
     },
     antarctica => {
         lines         => [11],
-        normalization => qr/^あんたーくてぃか|アンタークティカ$/xms,
+        normalization => qr/^あんたーくてぃか|アンタークティカ$/ms,
         position      => qr{ \s(/*\|\s+\|\s+\|\s+\|\s+\|)$ }x,
     },
     ajito => {
         lines         => [15..16],
-        normalization => qr/^あじと|アジト$/xms,
+        normalization => qr/^あじと|アジト$/ms,
         position      => qr{ \s(/*\|)$ }x,
     },
 );
